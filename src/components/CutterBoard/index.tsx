@@ -1,3 +1,3 @@
-export default function CutterBoard(): TSX.Element {
-  return <></>
+export default function CutterBoard(): JSX.Element {
+  return <div></div>
 }

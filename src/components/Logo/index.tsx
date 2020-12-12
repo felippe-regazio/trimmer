@@ -6,7 +6,7 @@ const LogoWrapper = styled.div`
   margin-bottom: 72px;
 
   h1 {
-    font-size: 2em;
+    font-size: 1.6em;
     margin-bottom: 8px;
     display: inline-block;
     color: var(--primary-color);
