@@ -15,14 +15,27 @@ export default function App(): JSX.Element {
   const [ , dispatch ] = useContext(Context);
 
   useEffect(() => {
-    new window.FFMPEGClient({
+    const ffmpeg = new window.FFMPEGClient({
       worker: `${window.location.origin}/ffmpeg-client-js/ffmpeg-worker/worker.js`,
       on: {
-        notSupported: console.log,
+        notSupported: () => {
+          dispatch({ 
+            type: 'updateStore', 
+            payload: { 
+              ffmpeg: false,
+              supported: false,
+              ffmpegLoaded: false, 
+            }
+          });          
+        },
         ready: () => {
           dispatch({ 
             type: 'updateStore', 
-            payload: { ffmpegLoaded: true, supported: true }
+            payload: { 
+              ffmpeg: ffmpeg,
+              supported: true,
+              ffmpegLoaded: true, 
+            }
           });
         },
       }

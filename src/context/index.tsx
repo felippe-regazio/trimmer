@@ -4,7 +4,7 @@ import React, {createContext, useReducer} from 'react'
 /* eslint-disable-next-line */
 const initialState: any = {
   ffmpeg: {},
-  supported: false,
+  supported: true,
   ffmpegLoaded: false,
 };
 
