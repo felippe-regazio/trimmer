@@ -1,7 +1,7 @@
 import { Container } from '@material-ui/core'
 import Logo from '../../components/Logo/'
 import Loading from '../../components/Loading'
-import CutterBoard from '../../components/CutterBoard'
+import CutterForm from '../../components/CutterForm'
 import { Context } from '../../context'
 import { useContext } from 'react'
 
@@ -14,7 +14,7 @@ export default function Home(): JSX.Element {
 
       {!store.ffmpegLoaded && <Loading />}
 
-      {store.ffmpegLoaded && <CutterBoard />}
+      {store.ffmpegLoaded && <CutterForm />}
     </Container>
   )
 }

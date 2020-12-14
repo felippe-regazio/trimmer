@@ -1,5 +1,4 @@
 import Home from './views/Home'
-import Chunks from './views/Chunks'
 import { Context } from './context'
 import { useContext, useEffect } from 'react'
 import { HashRouter as Router, Switch, Route } from "react-router-dom"
@@ -44,11 +43,7 @@ export default function App(): JSX.Element {
 
   return (
     <Router>
-      <Switch>
-        <Route path="/chunks">
-          <Chunks />
-        </Route>
-        
+      <Switch>        
         <Route path="/">
           <Home />
         </Route>

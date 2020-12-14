@@ -4,7 +4,7 @@ import Store from './context'
 import App from './App'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import 'fontsource-roboto'
-import './style/main.scss'
+import './resources/style/global.scss'
 
 ReactDOM.render(
   <React.StrictMode>
