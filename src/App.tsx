@@ -7,6 +7,8 @@ declare global {
   interface Window {
     /* eslint-disable-next-line */
     FFMPEGClient: any;
+    /* eslint-disable-next-line */
+    FFMPEGClientProcessors: any;
   }
 }
 
@@ -22,8 +24,8 @@ export default function App(): JSX.Element {
             type: 'updateStore', 
             payload: { 
               ffmpeg: false,
+              loading: false, 
               supported: false,
-              ffmpegLoaded: false, 
             }
           });          
         },
@@ -32,8 +34,9 @@ export default function App(): JSX.Element {
             type: 'updateStore', 
             payload: { 
               ffmpeg: ffmpeg,
+              loading: false, 
               supported: true,
-              ffmpegLoaded: true, 
+              processors: new FFMPEGClientProcessors(ffmpeg)
             }
           });
         },

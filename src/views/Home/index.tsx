@@ -12,9 +12,9 @@ export default function Home(): JSX.Element {
     <Container maxWidth="md">
       <Logo subtitle="Quickly cut vídeos directly on your browser" />
 
-      {!store.ffmpegLoaded && <Loading />}
+      {store.loading && <Loading />}
 
-      {store.ffmpegLoaded && <CutterForm />}
+      {!store.loading && store.supported && <CutterForm />}
     </Container>
   )
 }
