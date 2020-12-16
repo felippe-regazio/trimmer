@@ -7,7 +7,7 @@ import { useTheme } from '@material-ui/core/styles'
 import { useToasts } from 'react-toast-notifications'
 import { MobileStepper, Button } from '@material-ui/core'
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons'
-import { buildSubmitData, validateSubmitData, processData } from '../../resources/script/utils'
+import { buildSubmitData, validateSubmitData, processFile } from '../../resources/script/utils'
 
 const WrapperDiv = styled.div`
   flex-grow: 1;
@@ -41,7 +41,7 @@ export default function TextMobileStepper(): JSX.Element {
   const [ activeStep, setActiveStep ] = useState(0);
   const [ store, dispatch ] = useContext(Context);
 
-  const isPageLoading = (state = true) => {
+  const isPageLoading = state => {
     dispatch({ type: 'updateStore', payload: { loading: state } });
   };
 
@@ -66,34 +66,87 @@ export default function TextMobileStepper(): JSX.Element {
   const handleSubmit = e => {
     e.preventDefault();
 
+    const results = [];
     const data = buildSubmitData(store.formData);
     const validation = validateSubmitData(data);
 
-    if (validation.valid) {
-      addToast('Processing videos', { 
-        autoDismiss: true,
-        appearance: 'success'
-      });      
-
-      processData(data, store.processors, {
-        busy: () => isPageLoading(true),
-        done: result => {
-          console.log(result);
-          
-          isPageLoading(false);
-        },
-        error: console.log,
-      });
+    if (!validation.valid) {
+      showValidationErrors(validation.errors);
     } else {
-      validation.errors.forEach(error => {
-        try {
-          addToast(error, { 
-            autoDismiss: true,
-            appearance: 'error'
-          });
-        } catch {}
-      });
+      processData(data);
     }
+  };
+
+  const showValidationErrors = errors => {
+    errors.forEach(error => {
+      try {
+        addToast(error, { 
+          autoDismiss: true,
+          appearance: 'error'
+        });
+      } catch {}
+    });
+  };
+
+  const processData = async data => {
+    const results = [];
+
+    isPageLoading(true);
+
+    addToast('Processing videos', { 
+      autoDismiss: true,
+      appearance: 'success'
+    });
+
+    /**
+     * Is possible to send all fices at once to ffmpeg worker, or
+     * process all them using a single async function, but considering 
+     * that the split (chunk) option can consume a lot of memory, we 
+     * will send one file at once in a Sync FIFO to avoid problems 
+     * with memory and heaps, so you can send as many files as you want.
+     */
+    
+    for (const file of data.files) {
+      await processFile({
+        file,
+        data,
+        processors: store.processors,
+      })
+        .then(data => {
+          addToast(`File processed: "${data.result[0].name}"`, { 
+            autoDismiss: true,
+            appearance: 'success'
+          });
+
+          results.push(data.result);
+        })
+        .catch(error => {
+          handleProccessError({ reference: error, file });
+        });
+    }
+
+    allFilesProcessed(results);
+    isPageLoading(false);
+  };
+
+  const handleProccessError = error => {
+    console.error(error.reference);
+
+    addToast(`Sorry, but an error has occurred while processing "${error.file.name}"`, { 
+      autoDismiss: false,
+      appearance: 'error'
+    });
+  };
+
+  const allFilesProcessed = data => {
+    console.log(data);
+    // const dynamicUrlList = {};
+    
+    // data.result.forEach(item => {
+    //   const urlList = item.blobs.map(blob => window.URL.createObjectURL(blob));
+
+    //   dynamicUrlList[item.name] = urlList;
+    // });
   };
 
   return (

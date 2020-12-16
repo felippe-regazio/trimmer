@@ -42,18 +42,22 @@ export function validateSubmitData(data) {
   return { valid: errors.length === 0, errors: new Set(errors) }
 }
 
-export function processData(data, processors, callbacks) {
-  if (data.action === 'trim') {
-    return processors.trim(data.startTime, data.endTime, {
-      on: callbacks,
-      files: data.files
-    });
-  }
+export function processFile({ file, data, processors }) {
+  return new Promise((resolve, reject) => {
+    const processorArgs = {
+      files: [ file ],
+      on: {
+        done: resolve,
+        error: reject
+      }    
+    };
 
-  if (data.action === 'slice') {
-    return processors.split(data.chunkSize, {
-      on: callbacks,
-      files: data.files
-    });    
-  }
+    if (data.action === 'trim') {
+      processors.trim(data.startTime, data.endTime, processorArgs);
+    }
+  
+    if (data.action === 'slice') {
+      processors.split(data.chunkSize, processorArgs);
+    }
+  });
 }
