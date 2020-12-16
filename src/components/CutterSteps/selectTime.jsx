@@ -1,6 +1,8 @@
 import styled from 'styled-components'
-import TimePicker from 'react-time-picker'
-import { InputLabel } from '@material-ui/core';
+import InputMask from 'react-input-mask'
+import { Context } from '../../context'
+import { useContext } from 'react'
+import { InputLabel, Input } from '@material-ui/core'
 
 const Holder = styled.div`
   width: 100%;
@@ -26,34 +28,32 @@ const InputWrapper = styled.div`
   }
 `;
 
+type InputTimeProps = {
+  name: string,
+  label: string
+}
+
+function InputTime(props: InputTimeProps): JSX.Element {
+  return (
+    <InputWrapper>
+      <InputLabel>{props.label}</InputLabel>
+
+      <InputMask mask='99:99:99' maskChar='0' alwaysShowMask={true}>
+        {() => <Input name={props.name} />}
+      </InputMask>
+    </InputWrapper>
+  )
+}
+
 function SelectTime(): JSX.Element {
+  const [ store ] = useContext(Context);
+  const willTrim = store.formData && store.formData.action === 'trim';
+
   return (
     <Holder>
-      <InputWrapper>
-        <InputLabel>Start time:</InputLabel>
-        <TimePicker
-          maxDetail="second"
-          clearIcon={null}
-          clockIcon={null}
-          disableClock={true}
-          hourPlaceholder="00"
-          minutePlaceholder="00"
-          secondPlaceholder="00"
-        />
-      </InputWrapper>
-
-      <InputWrapper>
-        <InputLabel>End time:</InputLabel>      
-        <TimePicker
-          maxDetail="second"
-          clearIcon={null}
-          clockIcon={null}
-          disableClock={true}
-          hourPlaceholder="00"
-          minutePlaceholder="00"
-          secondPlaceholder="00"
-        />   
-      </InputWrapper>
+      <InputTime name='startTime' label={willTrim ? 'Start time:' : 'Chunk size:'} />
+      
+      {willTrim && <InputTime name='endTime' label='End time:' />}
     </Holder>
   )
 }

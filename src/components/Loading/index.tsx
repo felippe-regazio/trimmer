@@ -1,5 +1,9 @@
 import styled from 'styled-components'
 
+const Holder = styled.div`
+  text-align: center;
+`;
+
 const LoadingDonut = styled.div`
   width: 5rem;
   height: 5rem;
@@ -16,6 +20,16 @@ const LoadingDonut = styled.div`
   }  
 `;
 
-export default function Loading (): JSX.Element {
-  return <LoadingDonut />
+type LoadingProps = {
+  label: string
+};
+
+export default function Loading (props: LoadingProps): JSX.Element {
+  return (
+    <Holder>
+      <LoadingDonut />
+
+      {props.label && <p>{props.label}</p>}
+    </Holder>
+  )
 }

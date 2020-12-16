@@ -12,7 +12,7 @@ ReactDOM.render(
     <CssBaseline />
     
     <Store>
-      <ToastProvider>
+      <ToastProvider autoDismissTimeout={10000}>
         <App />
       </ToastProvider>
     </Store>

@@ -15,39 +15,45 @@ export function formatBytes(bytes: number, decimals = 2): string {
 }
 
 export function buildSubmitData(formData) {
-  const time = [0, 1].map(i => {
-    return ['hour12', 'minute', 'second']
-      .map(unit => formData[unit][i] || '00').join(':');
-  });
+  const timeInfo = formData.action === 'trim' 
+    ? { startTime: formData.startTime, endTime: formData.endTime } 
+    : { chunkSize: formData.startTime };
 
   return {
     files: formData.files,
     action: formData.action,
-    startTime: time[0],
-    endTime: time[1],
+    ...timeInfo
   };
 }
 
 export function validateSubmitData(data) {
-  const timeToInt = time => time.split(':')
-    .map(n => Number(n))
-    .reduce((a, b) => a+b, 0);
-
   const errors = [];
-  const endTimeInt = timeToInt(data.endTime);
-  const startTimeInt = timeToInt(data.startTime);
+  const endTime = Date.parse(`01/01/1111 ${data.endTime}`);
+  const startTime = Date.parse(`01/01/1111 ${data.startTime}`);
 
   !data.files.length && errors.push('There is no files to proccess');
-  data.action === 'slice' && !startTimeInt && errors.push('You must define the chunk size');
+  data.action === 'slice' && !data.chunkSize && errors.push('You must define the chunk size');
 
   if (data.action === 'trim') {
-    !endTimeInt && errors.push('The end time cannot be zero');
-    (endTimeInt <= startTimeInt) && errors.push('End time cannot be smaller or equal the start time');
+    !endTime && errors.push('The end time cannot be zero');
+    (endTime <= startTime) && errors.push('End time cannot be smaller or equal the start time');
   }
 
   return { valid: errors.length === 0, errors: new Set(errors) }
 }
 
-export function processData(data) {
-  console.log(data);
+export function processData(data, processors, callbacks) {
+  if (data.action === 'trim') {
+    return processors.trim(data.startTime, data.endTime, {
+      on: callbacks,
+      files: data.files
+    });
+  }
+
+  if (data.action === 'slice') {
+    return processors.split(data.chunkSize, {
+      on: callbacks,
+      files: data.files
+    });    
+  }
 }

@@ -2,7 +2,7 @@ import steps from '../CutterSteps/'
 import styled from 'styled-components'
 import serialize from 'form-serialize'
 import { Context } from '../../context'
-import { useState, useContext, useEffect } from 'react'
+import { useState, useContext } from 'react'
 import { useTheme } from '@material-ui/core/styles'
 import { useToasts } from 'react-toast-notifications'
 import { MobileStepper, Button } from '@material-ui/core'
@@ -41,6 +41,10 @@ export default function TextMobileStepper(): JSX.Element {
   const [ activeStep, setActiveStep ] = useState(0);
   const [ store, dispatch ] = useContext(Context);
 
+  const isPageLoading = (state = true) => {
+    dispatch({ type: 'updateStore', payload: { loading: state } });
+  };
+
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
 
@@ -66,15 +70,28 @@ export default function TextMobileStepper(): JSX.Element {
     const validation = validateSubmitData(data);
 
     if (validation.valid) {
-      dispatch({ type: 'updateStore', payload: { loading: true } });
+      addToast('Processing videos', { 
+        autoDismiss: true,
+        appearance: 'success'
+      });      
 
-      processData(data);
+      processData(data, store.processors, {
+        busy: () => isPageLoading(true),
+        done: result => {
+          console.log(result);
+          
+          isPageLoading(false);
+        },
+        error: console.log,
+      });
     } else {
       validation.errors.forEach(error => {
-        addToast(error, {
-          autoDismiss: true,
-          appearance: 'error'
-        });
+        try {
+          addToast(error, { 
+            autoDismiss: true,
+            appearance: 'error'
+          });
+        } catch {}
       });
     }
   };
