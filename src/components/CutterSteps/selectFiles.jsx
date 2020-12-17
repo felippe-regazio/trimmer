@@ -16,15 +16,14 @@ const ListWrapper = styled.div`
 `;
 
 function SelectFile(): JSX.Element {
-  const maxFileSize = 314572800;
+  const maxFileSize = 125829120;
   const { addToast } = useToasts();
   const [ files, setFiles ] = useState([]);
 
   const warnFileSize = () => {
     addToast(`You added some files bigger than ${formatBytes(maxFileSize)}. 
-    Avoid process big files concurrent to others, add them in a single process task instead. 
-    Since your browser will be processing it all by itself without the help of a server, 
-    also avoid process files bigger than 500 MB or you can run out of memory`, { 
+    This can be harmful for split mode. If you gonna use the split mode,
+    avoid split big files concurrent to others or you can run out of memory`, { 
       autoDismiss: false,
       appearance: 'warning'
     });    
