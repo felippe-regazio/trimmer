@@ -1,13 +1,14 @@
 import steps from '../CutterSteps/'
 import styled from 'styled-components'
 import serialize from 'form-serialize'
+import ShowResults from '../ShowResults'
 import { Context } from '../../context'
 import { useState, useContext } from 'react'
 import { useTheme } from '@material-ui/core/styles'
 import { useToasts } from 'react-toast-notifications'
 import { MobileStepper, Button } from '@material-ui/core'
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons'
-import { buildSubmitData, validateSubmitData, processFile } from '../../resources/script/utils'
+import { buildSubmitData, validateSubmitData, processFile, truncate } from '../../resources/script/utils'
 
 const WrapperDiv = styled.div`
   flex-grow: 1;
@@ -34,12 +35,13 @@ const Controls = styled.div`
 `;
 
 export default function TextMobileStepper(): JSX.Element {
-  const form = document.forms.cutterform;
   const theme = useTheme();
-  const maxSteps = steps.length;
-  const { addToast } = useToasts()
+  const { addToast } = useToasts();
   const [ activeStep, setActiveStep ] = useState(0);
   const [ store, dispatch ] = useContext(Context);
+
+  const maxSteps = steps.length;
+  const form = document.forms.cutterform;
 
   const isPageLoading = state => {
     dispatch({ type: 'updateStore', payload: { loading: state } });
@@ -66,7 +68,10 @@ export default function TextMobileStepper(): JSX.Element {
   const handleSubmit = e => {
     e.preventDefault();
 
-    const results = [];
+    if (activeStep !== maxSteps - 1) {
+      return handleNext();
+    }
+
     const data = buildSubmitData(store.formData);
     const validation = validateSubmitData(data);
 
@@ -89,7 +94,7 @@ export default function TextMobileStepper(): JSX.Element {
   };
 
   const processData = async data => {
-    const results = [];
+    const processed = [];
 
     isPageLoading(true);
 
@@ -106,26 +111,29 @@ export default function TextMobileStepper(): JSX.Element {
      * with memory and heaps, so you can send as many files as you want.
      */
     
-    for (const file of data.files) {
+    for (const [ index, file ] of data.files.entries()) {
       await processFile({
         file,
         data,
         processors: store.processors,
       })
-        .then(data => {
-          addToast(`File processed: "${data.result[0].name}"`, { 
+        .then(proc => {
+          const filesProcessedStr = `File processed: "${truncate(20, proc.result[0].name)}".`;
+          const filesRemainingStr = `Files remaining: ${data.files.length - (index + 1)}`;
+
+          addToast(`${filesProcessedStr} ${filesRemainingStr}`, { 
             autoDismiss: true,
             appearance: 'success'
           });
 
-          results.push(data.result);
+          processed.push(proc.result);
         })
         .catch(error => {
           handleProccessError({ reference: error, file });
         });
     }
 
-    allFilesProcessed(results);
+    allFilesProcessed(processed);
     isPageLoading(false);
   };
 
@@ -139,14 +147,15 @@ export default function TextMobileStepper(): JSX.Element {
   };
 
   const allFilesProcessed = data => {
-    console.log(data);
-    // const dynamicUrlList = {};
-    
-    // data.result.forEach(item => {
-    //   const urlList = item.blobs.map(blob => window.URL.createObjectURL(blob));
+    const dynamicUrlList = data
+      .map(item => ({ name: item[0].name, blobs: item[0].blobs }))
+      .map(item => {
+        item.blobs = item.blobs.map(b => window.URL.createObjectURL(b));
 
-    //   dynamicUrlList[item.name] = urlList;
-    // });
+        return item;
+      });
+
+    dispatch({ type: 'updateStore', payload: { processed: dynamicUrlList } });
   };
 
   return (
@@ -190,6 +199,8 @@ export default function TextMobileStepper(): JSX.Element {
           </ContentDiv>
         ))}
       </form>
+
+      {store.processed.length > 0 && <ShowResults/>}
     </WrapperDiv>
   );
 }

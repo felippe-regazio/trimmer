@@ -1,3 +1,5 @@
+import { saveAs } from 'file-saver';
+
 export function formatBytes(bytes: number, decimals = 2): string {
   if (bytes === 0) {
     return '0 Bytes';
@@ -60,4 +62,12 @@ export function processFile({ file, data, processors }) {
       processors.split(data.chunkSize, processorArgs);
     }
   });
+}
+
+export function download(name, blobUrl) {
+  return saveAs(blobUrl, name);
+}
+
+export function truncate (limit: number, str: string) {
+  return str.length > limit ? `${str.substr(0, limit)}...` : str;
 }

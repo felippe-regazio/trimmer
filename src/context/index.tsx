@@ -5,6 +5,7 @@ import React, {createContext, useReducer} from 'react'
 const initialState: any = {
   ffmpeg: {},
   formData: {},
+  processed: [],
   loading: true,
   processors: {},
   supported: true,
