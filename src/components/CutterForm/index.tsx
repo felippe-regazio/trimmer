@@ -129,7 +129,7 @@ export default function TextMobileStepper(): JSX.Element {
           processed.push(proc.result);
         })
         .catch(error => {
-          handleProccessError({ reference: error, file });
+          handleProcessError({ reference: error, file });
         });
     }
 
@@ -137,7 +137,7 @@ export default function TextMobileStepper(): JSX.Element {
     isPageLoading(false);
   };
 
-  const handleProccessError = error => {
+  const handleProcessError = error => {
     console.error(error.reference);
 
     addToast(`Sorry, but an error has occurred while processing "${error.file.name}"`, { 

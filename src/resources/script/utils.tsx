@@ -33,7 +33,7 @@ export function validateSubmitData(data) {
   const endTime = Date.parse(`01/01/1111 ${data.endTime}`);
   const startTime = Date.parse(`01/01/1111 ${data.startTime}`);
 
-  !data.files.length && errors.push('There is no files to proccess');
+  !data.files.length && errors.push('There is no files to process');
   data.action === 'slice' && !data.chunkSize && errors.push('You must define the chunk size');
 
   if (data.action === 'trim') {
