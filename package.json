@@ -33,7 +33,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint '*/**/*.{js,ts,tsx}'",
+    "lint": "eslint 'src/**/*.{js,ts,tsx}'",
     "lint:fix": "npm run lint -- --quiet --fix"
   },
   "eslintConfig": {

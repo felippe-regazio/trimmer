@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { download } from '../../resources/script/utils.tsx'
-import { Typography, Button, Card, CardActionArea, CardMedia, CardContent, CardActions } from '@material-ui/core';
+import { Typography, Button, Card, CardActions } from '@material-ui/core';
 
 type VideoCardProps = {
   url: unknown,

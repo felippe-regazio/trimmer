@@ -16,7 +16,7 @@ export function formatBytes(bytes: number, decimals = 2): string {
   return  `${size} ${label}`;
 }
 
-export function buildSubmitData(formData) {
+export function buildSubmitData(formData: unknown): unknown {
   const timeInfo = formData.action === 'trim' 
     ? { startTime: formData.startTime, endTime: formData.endTime } 
     : { chunkSize: formData.startTime };
@@ -28,7 +28,12 @@ export function buildSubmitData(formData) {
   };
 }
 
-export function validateSubmitData(data) {
+type ValidationResult = {
+  valid: boolean,
+  errors: array<string>
+}
+
+export function validateSubmitData(data: unknown): ValidationResult {
   const errors = [];
   const endTime = Date.parse(`01/01/1111 ${data.endTime}`);
   const startTime = Date.parse(`01/01/1111 ${data.startTime}`);
@@ -44,7 +49,13 @@ export function validateSubmitData(data) {
   return { valid: errors.length === 0, errors: new Set(errors) }
 }
 
-export function processFile({ file, data, processors }) {
+type ProcessArgs = {
+  file: File,
+  data: unknown,
+  processors: unknown
+};
+
+export function processFile({ file, data, processors }: ProcessArgs): Promise {
   return new Promise((resolve, reject) => {
     const processorArgs = {
       files: [ file ],
@@ -64,10 +75,10 @@ export function processFile({ file, data, processors }) {
   });
 }
 
-export function download(name, blobUrl) {
+export function download(name: string, blobUrl: string): unknown {
   return saveAs(blobUrl, name);
 }
 
-export function truncate (limit: number, str: string) {
+export function truncate (limit: number, str: string): string {
   return str.length > limit ? `${str.substr(0, limit)}...` : str;
 }
