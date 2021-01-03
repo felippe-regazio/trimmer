@@ -59,8 +59,7 @@ export default function About(props: AboutProps): JSX.Element {
         <p>
           Trimmer is a simple online video cropper that doesn&apos;t need a backend. 
           It combines a Worker + ffmpeg.js + React to allow your browser to do
-          all that hard work without a server. This project is experimental and
-          must not be used in production. Use it carefully.
+          all that hard work without a server.
         </p><br/>
 
         <ul>
@@ -69,7 +68,7 @@ export default function About(props: AboutProps): JSX.Element {
             by <a href="https://github.com/felippe-regazio/" target="_blank" rel="noreferrer">Felippe Regazio</a><br/><br/>
           </li>
           <li>
-            <a href="https://github.com/felippe-regazio/ffmpeg-client-js" target="_blank" rel="noreferrer">Ffmpeg Client &amp; Worker</a><br/>
+            <a href="https://github.com/felippe-regazio/ffmpeg-client-js" target="_blank" rel="noreferrer">Ffmpeg Worker</a><br/>
               by <a href="https://github.com/felippe-regazio/" target="_blank" rel="noreferrer">Felippe Regazio</a><br/><br/>
             </li>
           <li>

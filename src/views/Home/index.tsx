@@ -7,6 +7,7 @@ import { Context } from '../../context'
 import { useContext, useState } from 'react'
 import { Info } from '@material-ui/icons/'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 
 const AboutWrapper = styled.div`
   position: fixed;
@@ -22,6 +23,7 @@ const AboutWrapper = styled.div`
 `;
 
 export default function Home(): JSX.Element {
+  const { t } = useTranslation();
   const [ store ] = useContext(Context);
   const [ showAbout, setShowAbout ] = useState(false);
 
@@ -31,7 +33,7 @@ export default function Home(): JSX.Element {
     
   return (
     <Container maxWidth="md">
-      <Logo subtitle="Quickly cut vídeos directly on your browser" />
+      <Logo subtitle={t('appSubtitle')} />
 
       {store.loading && <Loading />}
       {!store.loading && store.supported && <CutterForm />}

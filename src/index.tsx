@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Store from './context'
+import './i18n/'
 import App from './App'
 import { ToastProvider } from 'react-toast-notifications';
 import CssBaseline from '@material-ui/core/CssBaseline'
