@@ -9,7 +9,7 @@ This implements a JS Web Worker is a ffmpeg.js (Emscripten Port) and a React App
 
 # MVP Warn
 
-Despite being stable, this is an MVP. This is not a "Production Ready App". I made it in two weeks as an experiment, and since i didnt wrote all the tests yet, id suggest you to dont use it for any production purpose unless you do the proper tests: device variation, file variation, stress tests, security tests and unity tests.
+Despite being stable, this is an micro MVP. This is not a "Production Ready App". I made it in two weeks as an experiment, and since i didnt wrote all the tests yet, id suggest you to dont use it for any production purpose unless you do the proper tests: device variation, file variation, stress tests, security tests and unity tests.
 
 # Development
 
