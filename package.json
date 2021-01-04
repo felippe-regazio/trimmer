@@ -2,6 +2,7 @@
   "name": "trimmer",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://felippe-regazio.github.io/trimmer",
   "dependencies": {
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",

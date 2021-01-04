@@ -2,7 +2,7 @@ import Home from './views/Home'
 import { Context } from './context'
 import { useContext, useEffect } from 'react'
 import UpperHeader from './components/UpperHeader/'
-import { HashRouter as Router, Switch, Route } from "react-router-dom"
+import { HashRouter, Switch, Route } from "react-router-dom"
 
 declare global {
   interface Window {
@@ -46,7 +46,7 @@ export default function App(): JSX.Element {
   }, []);
 
   return (
-    <Router>
+    <HashRouter basename="/">
       <UpperHeader />
       
       <Switch>        
@@ -54,7 +54,7 @@ export default function App(): JSX.Element {
           <Home />
         </Route>
       </Switch>
-    </Router>
+    </HashRouter>
   )
 }
   
