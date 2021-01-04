@@ -1,10 +1,13 @@
 git checkout gh-pages
 git reset --hard origin/master
+
 npm run build
-rm .gitignore
-rm -rf node_modules
+find * -maxdepth 0 -name 'build' -prune -o -exec rm -rf '{}' ';'
 mv ./build/* .
+
+git rm -rf --cache .
 git add .
 git commit -m "deploy"
 git push origin gh-pages --force
+
 git checkout master
