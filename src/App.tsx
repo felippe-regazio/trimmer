@@ -18,7 +18,7 @@ export default function App(): JSX.Element {
 
   useEffect(() => {
     const ffmpeg = new window.FFMPEGClient({
-      worker: `${window.location.origin}/ffmpeg-client-js/ffmpeg-worker/worker.js`,
+      worker: `${window.location.origin + window.location.pathname}/ffmpeg-client-js/ffmpeg-worker/worker.js`,
       on: {
         notSupported: () => {
           dispatch({ 
