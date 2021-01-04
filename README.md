@@ -9,7 +9,7 @@ This implements a JS Web Worker is a ffmpeg.js (Emscripten Port) and a React App
 
 # Warning
 
-Despite being stable, this is not a "Production Ready App". I made it in two weeks as an experiment, and since i dont wrote all the tests yet, i suggest you to dont use it for any production purpose unless you do the proper tests (device variation, file variation, stress tests, security tests and unity tests) before use it. Otherwise, it can be better to search fo a stable solution out there.
+Despite being stable, this is not a "Production Ready App". I made it in two weeks as an experiment, and since i didnt wrote all the tests yet, i suggest you to dont use it for any production purpose unless you do the proper tests (device variation, file variation, stress tests, security tests and unity tests) before use it. Otherwise, it can be better to search fo a stable solution out there.
 
 # Development
 
