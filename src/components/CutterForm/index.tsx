@@ -4,6 +4,7 @@ import serialize from 'form-serialize'
 import ShowResults from '../ShowResults'
 import { Context } from '../../context'
 import { useState, useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useTheme } from '@material-ui/core/styles'
 import { useToasts } from 'react-toast-notifications'
 import { MobileStepper, Button } from '@material-ui/core'
@@ -36,6 +37,7 @@ const Controls = styled.div`
 
 export default function TextMobileStepper(): JSX.Element {
   const theme = useTheme();
+  const { t } = useTranslation();
   const { addToast } = useToasts();
   const [ activeStep, setActiveStep ] = useState(0);
   const [ store, dispatch ] = useContext(Context);
@@ -85,7 +87,7 @@ export default function TextMobileStepper(): JSX.Element {
   const showValidationErrors = errors => {
     errors.forEach(error => {
       try {
-        addToast(error, { 
+        addToast(t(error), { 
           autoDismiss: true,
           appearance: 'error'
         });
@@ -98,7 +100,7 @@ export default function TextMobileStepper(): JSX.Element {
 
     isPageLoading(true);
 
-    addToast('Processing videos', { 
+    addToast(t('processingVideos'), { 
       autoDismiss: true,
       appearance: 'success'
     });
@@ -118,8 +120,8 @@ export default function TextMobileStepper(): JSX.Element {
         processors: store.processors,
       })
         .then(proc => {
-          const filesProcessedStr = `File processed: "${truncate(20, proc.result[0].name)}".`;
-          const filesRemainingStr = `Files remaining: ${data.files.length - (index + 1)}`;
+          const filesProcessedStr = `${t('fileProcessed')}: "${truncate(20, proc.result[0].name)}".`;
+          const filesRemainingStr = `${t('filesRemaining')}: ${data.files.length - (index + 1)}`;
 
           addToast(`${filesProcessedStr} ${filesRemainingStr}`, { 
             autoDismiss: true,
@@ -140,7 +142,7 @@ export default function TextMobileStepper(): JSX.Element {
   const handleProcessError = error => {
     console.error(error.reference);
 
-    addToast(`Sorry, but an error has occurred while processing "${error.file.name}"`, { 
+    addToast(`${t('errorWhileProcessing')} "${error.file.name}"`, { 
       autoDismiss: false,
       appearance: 'error'
     });
@@ -171,7 +173,7 @@ export default function TextMobileStepper(): JSX.Element {
               onClick={handleNext}
               disabled={activeStep === maxSteps - 1}
             >
-              Next
+              {t('next')}
               {theme.direction === 'rtl' ? (
                 <KeyboardArrowLeft />
               ) : (
@@ -186,7 +188,7 @@ export default function TextMobileStepper(): JSX.Element {
               ) : (
                 <KeyboardArrowLeft />
               )}
-              Back
+              {t('back')}
             </Button>
           }
         />

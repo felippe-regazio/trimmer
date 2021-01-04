@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import { download } from '../../resources/script/utils.tsx'
 import { Typography, Button, Card, CardActions } from '@material-ui/core';
 
@@ -30,6 +31,8 @@ const Actions = styled.div`
 `;
 
 export default function VideoCard(props: VideoCardProps): JSX.Element {
+  const { t } = useTranslation();
+
   return (
     <Card>
       <VideoWrapper>
@@ -43,7 +46,7 @@ export default function VideoCard(props: VideoCardProps): JSX.Element {
           </Typography>
 
           <Button size="small" color="primary" onClick={() => download(`${props.index + 1}_${props.name}`, props.url)}>
-            Download
+            {t('download')}
           </Button>
         </Actions>
       </CardActions>

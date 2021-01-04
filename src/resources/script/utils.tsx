@@ -38,12 +38,12 @@ export function validateSubmitData(data: unknown): ValidationResult {
   const endTime = Date.parse(`01/01/1111 ${data.endTime}`);
   const startTime = Date.parse(`01/01/1111 ${data.startTime}`);
 
-  !data.files.length && errors.push('There is no files to process');
-  data.action === 'slice' && !data.chunkSize && errors.push('You must define the chunk size');
+  !data.files.length && errors.push('submitErrorNoFilesToProcess');
+  data.action === 'slice' && !data.chunkSize && errors.push('submitErrorDefineChunkSize');
 
   if (data.action === 'trim') {
-    !endTime && errors.push('The end time cannot be zero');
-    (endTime <= startTime) && errors.push('End time cannot be smaller or equal the start time');
+    !endTime && errors.push('submitErrorNoZeroEndTime');
+    (endTime <= startTime) && errors.push('submitErrorNoEndTimeOrEqualStart');
   }
 
   return { valid: errors.length === 0, errors: new Set(errors) }
@@ -81,4 +81,19 @@ export function download(name: string, blobUrl: string): unknown {
 
 export function truncate (limit: number, str: string): string {
   return str.length > limit ? `${str.substr(0, limit)}...` : str;
+}
+
+export function getDefaultLocale (): string {
+  const fromStorage = window.localStorage.getItem('trimmerLocale');
+  const fromNavigator = navigator && navigator.language;
+  
+  if (fromStorage) {
+    return fromStorage;
+  }
+  
+  if (fromNavigator) {
+    const shortLangName = navigator.language.split('-')[0];
+    
+    return shortLangName.toLowerCase() === 'pt' ? 'pt-BR' : 'en';
+  }
 }

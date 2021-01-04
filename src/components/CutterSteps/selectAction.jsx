@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
@@ -11,18 +12,23 @@ const Centered = styled.div`
 `;
 
 function SelectAction(): JSX.Element {
+  const { t } = useTranslation();
   const [action, setAction] = useState('trim');
 
-  const handleChange = event => {
+  const handleChange = (event: SyntheticEvennt): void => {
     setAction(event.target.value);
   };
+
+  const ucFirst = (str: string): string => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 
   return (
     <Centered>
       <FormControl component="fieldset">
-        <RadioGroup aria-label="gender" name="action" value={action} onChange={handleChange}>
-          <FormControlLabel value="trim" control={<Radio />} label="Trim" />
-          <FormControlLabel value="slice" control={<Radio />} label="Slice" />
+        <RadioGroup name="action" value={action} onChange={handleChange}>
+          <FormControlLabel value='trim' control={<Radio />} label={ucFirst(t('trim'))} />
+          <FormControlLabel value='slice' control={<Radio />} label={ucFirst(t('slice'))} />
         </RadioGroup>
       </FormControl>
     </Centered>

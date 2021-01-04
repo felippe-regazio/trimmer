@@ -20,16 +20,10 @@ const LoadingDonut = styled.div`
   }  
 `;
 
-type LoadingProps = {
-  label: string
-};
-
-export default function Loading (props: LoadingProps): JSX.Element {
+export default function Loading (): JSX.Element {
   return (
     <Holder>
       <LoadingDonut />
-
-      {props.label && <p>{props.label}</p>}
     </Holder>
   )
 }

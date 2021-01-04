@@ -1,6 +1,5 @@
-import { runInNewContext } from 'vm'
 import en from './en.tsx'
-import ptBR from './pt-Br.tsx'
+import ptBR from './pt-BR.tsx'
 
 export default {
   'en': en,

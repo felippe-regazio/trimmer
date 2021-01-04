@@ -1,6 +1,7 @@
 import Home from './views/Home'
 import { Context } from './context'
 import { useContext, useEffect } from 'react'
+import UpperHeader from './components/UpperHeader/'
 import { HashRouter as Router, Switch, Route } from "react-router-dom"
 
 declare global {
@@ -46,6 +47,8 @@ export default function App(): JSX.Element {
 
   return (
     <Router>
+      <UpperHeader />
+      
       <Switch>        
         <Route path="/">
           <Home />

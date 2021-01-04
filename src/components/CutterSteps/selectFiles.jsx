@@ -1,10 +1,22 @@
 import styled from 'styled-components'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Theaters } from '@material-ui/icons/'
 import { useToasts } from 'react-toast-notifications'
 import { formatBytes } from '../../resources/script/utils.tsx'
-import { Button, Typography, Divider, List, ListItem, ListItemIcon, ListItemText, ListItemSecondaryAction, IconButton } from '@material-ui/core'
+
+import { 
+  Button,
+  Typography,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListItemSecondaryAction,
+  IconButton 
+} from '@material-ui/core'
 
 const ButtonWrapper = styled.div`
   text-align: center;
@@ -16,14 +28,14 @@ const ListWrapper = styled.div`
 `;
 
 function SelectFile(): JSX.Element {
+  const { t } = useTranslation();
   const maxFileSize = 125829120;
   const { addToast } = useToasts();
   const [ files, setFiles ] = useState([]);
 
   const warnFileSize = () => {
-    addToast(`You added some files bigger than ${formatBytes(maxFileSize)}. 
-    This can be harmful for split mode. If you gonna use the split mode,
-    avoid split big files concurrent to others or you can run out of memory`, { 
+    addToast(`${ t('youAddedFilesBiggerThan') } ${ formatBytes(maxFileSize) }.
+    ${ t('thisCanBeHarmfulForSplitMode') }`, { 
       autoDismiss: false,
       appearance: 'warning'
     });    
@@ -50,7 +62,7 @@ function SelectFile(): JSX.Element {
       <ButtonWrapper>
         <Button variant="contained" color="primary" component="label">
           <input name="files" type="file" accept="video/*" onChange={ e => addFiles(e.target.files) } hidden multiple/>
-          Choose Videos
+          {t('chooseVideos')}
         </Button>
       </ButtonWrapper>
 

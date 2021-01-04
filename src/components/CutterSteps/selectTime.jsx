@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import InputMask from 'react-input-mask'
 import { Context } from '../../context'
 import { useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import { InputLabel, Input } from '@material-ui/core'
 
 const Holder = styled.div`
@@ -46,14 +47,15 @@ function InputTime(props: InputTimeProps): JSX.Element {
 }
 
 function SelectTime(): JSX.Element {
+  const { t } = useTranslation();
   const [ store ] = useContext(Context);
   const willTrim = store.formData && store.formData.action === 'trim';
 
   return (
     <Holder>
-      <InputTime name='startTime' label={willTrim ? 'Start time:' : 'Chunk size:'} />
+      <InputTime name='startTime' label={willTrim ? `${t('startTime')}:` : `${t('chunkSize')}:`} />
       
-      {willTrim && <InputTime name='endTime' label='End time:' />}
+      {willTrim && <InputTime name='endTime' label={`${t('endTime')}:`} />}
     </Holder>
   )
 }

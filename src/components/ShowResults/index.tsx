@@ -1,13 +1,23 @@
-import styled from 'styled-components'
 import { useContext, useState } from 'react'
 import { Context } from '../../context'
+import { useTranslation } from 'react-i18next'
+import { download } from '../../resources/script/utils.tsx'
+import styled from 'styled-components'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import VideoCard from '../VideoCard'
-import { download } from '../../resources/script/utils.tsx'
-import { Button, Chip, Avatar, Accordion, AccordionDetails, AccordionSummary, Typography } from '@material-ui/core'
+
+import {
+  Button,
+  Chip,
+  Avatar,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Typography
+} from '@material-ui/core'
 
 const Wrapper = styled.div`
-  top: 0;
+  top: 56px;
   left: 50%;
   width: 100%;
   height: 100vh;
@@ -93,6 +103,7 @@ const Stats = styled.div`
 `;
 
 export default function ShowResults(): JSX.Element {
+  const { t } = useTranslation();
   const [ store, dispatch ] = useContext(Context);
   const videos = store.processed;
   const [ expanded, setExpanded ] = useState(videos[0]?.name);
@@ -113,8 +124,8 @@ export default function ShowResults(): JSX.Element {
     <Wrapper>
       <Toolbar>
         <ToolBarInner>
-          <h1>{store.formData.action === 'trim' ? 'Trim Results' : 'Slice Results'}</h1>
-          <Button color='inherit' onClick={() => close()}>Close</Button>
+          <h1>{store.formData.action === 'trim' ? t('trimResults') : t('sliceResults')}</h1>
+          <Button color='inherit' onClick={() => close()}><strong>{t('close')}</strong></Button>
         </ToolBarInner>
       </Toolbar>
 
@@ -131,13 +142,13 @@ export default function ShowResults(): JSX.Element {
               <ActionRow>
                 <div>
                   <Stats>
-                    <div><strong>Command:</strong> {store.formData.action}</div>
-                    <div><strong>Chunk size:</strong> {store.formData.startTime}</div>
-                    <div><strong>Files generated:</strong> {item.blobs.length}</div>
+                    <div><strong>{t('command')}:</strong> {t(store.formData.action)}</div>
+                    <div><strong>{t('chunkSize')}:</strong> {store.formData.startTime}</div>
+                    <div><strong>{t('filesGenerated')}:</strong> {item.blobs.length}</div>
                   </Stats>
                 </div>
 
-                <Button onClick={() => downloadAll(item.name, item.blobs)}>Download All</Button>
+                <Button onClick={() => downloadAll(item.name, item.blobs)}>{t('downloadAll')}</Button>
               </ActionRow>
 
               <AccordionDetails>  
