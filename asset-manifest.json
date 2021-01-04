@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/trimmer/static/css/main.25defd5f.chunk.css",
+    "main.js": "/trimmer/static/js/main.f396a07d.chunk.js",
+    "main.js.map": "/trimmer/static/js/main.f396a07d.chunk.js.map",
+    "runtime-main.js": "/trimmer/static/js/runtime-main.a482ae2a.js",
+    "runtime-main.js.map": "/trimmer/static/js/runtime-main.a482ae2a.js.map",
+    "static/css/2.a68b58db.chunk.css": "/trimmer/static/css/2.a68b58db.chunk.css",
+    "static/js/2.b116ff4a.chunk.js": "/trimmer/static/js/2.b116ff4a.chunk.js",
+    "static/js/2.b116ff4a.chunk.js.map": "/trimmer/static/js/2.b116ff4a.chunk.js.map",
+    "index.html": "/trimmer/index.html",
+    "static/css/2.a68b58db.chunk.css.map": "/trimmer/static/css/2.a68b58db.chunk.css.map",
+    "static/css/main.25defd5f.chunk.css.map": "/trimmer/static/css/main.25defd5f.chunk.css.map",
+    "static/js/2.b116ff4a.chunk.js.LICENSE.txt": "/trimmer/static/js/2.b116ff4a.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/trimmer/static/media/roboto-vietnamese-400-normal.52cebac0.woff2"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a482ae2a.js",
+    "static/css/2.a68b58db.chunk.css",
+    "static/js/2.b116ff4a.chunk.js",
+    "static/css/main.25defd5f.chunk.css",
+    "static/js/main.f396a07d.chunk.js"
+  ]
+}
